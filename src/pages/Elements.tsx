@@ -7,7 +7,6 @@ type Props = {
 }
 
 
-
 const Elements = ({chooseElement}:Props) => {
 
 /**
@@ -21,7 +20,7 @@ const Elements = ({chooseElement}:Props) => {
       <img src="../src/assets/bg-triangle.svg" alt="triangle" className="absolute md:w-96 mt-12 md:ml-8 w-62"/>
     <Link to='/score'>
        <div className="relative cursor-pointer rounded-full md:w-52 md:h-52 w-36 h-36 md:border-[1.5em] border-[1.2em] border-blue-500 bg-slate-100 flex items-center justify-center " onClick={()=> chooseElement(NumberChoose.Paper)} >
-    <img src="../src/assets/icon-paper.svg" alt="" className="md:w-24 w-30" />
+    <img src="../src/assets/icon-paper.svg" alt="" className="md:w-24 w-30 " />
       </div>
     </Link>
     <Link to='/score'>

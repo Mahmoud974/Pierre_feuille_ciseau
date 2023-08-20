@@ -1,106 +1,79 @@
 import { useEffect, useState } from "react";
-import { ChooseElement, NumberChoose } from "../shared/types";
+import { ChooseElement} from "../shared/types";
 import { Link } from "react-router-dom";
 
 type Props = {
-  chooseNumber: number | undefined | any
+  chooseNumber: number | undefined | any,
+    count: number,
+setCount: any
 }
 
 
-const Score = ({chooseNumber}:Props) => {
+const Score = ({chooseNumber,count,setCount}:Props) => {
 
-  const [colorChoose,setColorChoose] = useState<string>('');
+const [colorChoose,setColorChoose] = useState<string>('');
 const [imgChoose,setImgChoose] = useState<string>('');
 const [colorHomeChoose,setColorHomeChoose] = useState<string>('');
 const [imgHomeChoose,setImgHomeChoose] = useState<string>('');
 const [result, setResult] = useState('YOU WIN')
+
+
 const choices: ChooseElement[] = [  
-  {id:1,color: 'border-[1.5em] border-red-600', img: 'rock'},  
-  {id:2,color: 'border-[1.5em] border-blue-500', img: 'paper'}, 
-   {id:3,color: 'border-[1.5em] border-yellow-500', img: 'scissors'}
+  {id:1, color: 'border-[1.5em] border-red-600', img: 'rock'},  
+  {id:2, color: 'border-[1.5em] border-blue-500', img: 'paper'}, 
+  {id:3, color: 'border-[1.5em] border-yellow-500', img: 'scissors'}
 ];
-/**
- * 
- * @returns Ai play
- */
-const getRandomChoice = () => choices[Math.floor(Math.random() * choices.length)];
- 
+
+
+
+const getRandomChoice = () => choices[Math.floor(Math.random() * choices.length )]
 useEffect(()=>{
-  const chosen = choices[chooseNumber - 1];
+ const chosen:ChooseElement = choices[chooseNumber - 1];
 
-  // if(NumberChoose.Rock=== chosen.id){
-  //   df
-  // }
-
-
-  if(chosen){
-    setColorChoose(chosen.color);
-    setImgChoose(chosen.img);
-  } else {
-   
-    
-    // alert('error');
-  }
+if (chosen) {
+  setColorChoose(chosen.color);
+  setImgChoose(chosen.img);
 
   const home = getRandomChoice();
   setColorHomeChoose(home.color);
   setImgHomeChoose(home.img);
 
- let option:string | number = '';
-if (chosen.id === home.id) {
-  option = chosen.id;
-}
-
-switch (option) {
-  case NumberChoose.Rock:
+  if (chosen.id === home.id) {
     setResult('ÉGALITÉ');
-  break;
-  case NumberChoose.Paper:
-    setResult('ÉGALITÉ');
-  break;
-  case NumberChoose.Scissors:
-    setResult('ÉGALITÉ');
-    break;
+  }
+  else if((chosen.id === 3 && home.id === 1) || 
+    (chosen.id === 1 && home.id === 3)){
+setResult('YOU LOSE');
+    }
+   else if (chosen.id > home.id) {
+    setResult('YOU WIN');
+    setCount(count + 1)
+
+  } 
+  else {
+    setResult('YOU LOSE');
+  }
 }
-
-if(chosen.id > home.id){
-  setResult('YOU WIN')
-
-}
-else if(chosen.id < home.id){
-    setResult('YOU LOSE')
-}
-
-
-
-
-
-console.log(NumberChoose.Rock === chosen.id && NumberChoose.Rock === home.id);
-
-
-
-
-},[ ]);
+},[]);
 
  
   
     return (
-    <div className="flex justify-evenly px-12 mt-16 ">
-
-            <div className="text-center  ">
-                <p className="py-12 font-bold text-2xl">YOU PICKED</p>
-     <div className={`${colorChoose} rounded-full w-52 h-52   bg-zinc-900 flex items-center justify-center  `}  >
+    <div className="flex justify-evenly px-12 mt-16 space-x-12 ">
+      <div className="text-center  ">
+        <p className="py-12 font-bold text-2xl">YOU PICKED</p>
+     <div className={`${colorChoose} rounded-full w-52 h-52   bg-slate-200 flex items-center justify-center  `}  >
     <img src={`../src/assets/icon-${imgChoose}.svg `} alt="" className="w-24" />
       </div>
     
         </div>
         <div>
-      <h1 className="text-5xl font-bold mt-32" >
+      <h1 className="text-4xl text-center font-bold mt-32 letter-spacing" >
         {result}
       </h1>
       
       <Link to='http://localhost:5173/'>
-       <button className="text-red-800 bg-white px-12 py-2 rounded-md w-full mt-4 font-bold"  >
+       <button className="whitespace-nowrap text-red-600 tracking-widest bg-white px-12 mx-auto py-2 rounded-md w-full mt-4 font-bold text-1xl"  >
         PLAY AGAIN
       </button>
       </Link>
@@ -109,19 +82,17 @@ console.log(NumberChoose.Rock === chosen.id && NumberChoose.Rock === home.id);
    <div className="text-center ">
     <p className="py-12 font-bold text-2xl">THE HOUSE PICKED</p>
 
-      <div className={`${colorHomeChoose} rounded-full w-52 h-52   bg-zinc-900 flex items-center justify-center  `}  >
+      <div className={`${colorHomeChoose} rounded-full w-52 h-52   bg-slate-200 border-slate-300 flex items-center justify-center  `}  >
     <img src={`../src/assets/icon-${imgHomeChoose}.svg `} alt="" className="w-24" />
       </div>
 
-      {/* <div className=" rounded-full w-52 h-52   bg-zinc-900 flex items-center justify-center " >
 
-      </div> */}
 </div>
         
     </div>
     );
 };
-console.log(window.location.href.includes('http://localhost:5173/'));
+
 
 
 export default Score;
